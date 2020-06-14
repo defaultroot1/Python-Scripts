@@ -8,12 +8,11 @@ import win32com.client as win32
 from time import sleep
 from math import pow, ceil
 
-
 FILEPATH = r'\\networksharepath\VMs.xlsx'     # Set filepath of XLSX file
 ESXI_USERNAME = 'root'
 ESXI_PASSWORD = 'yourpassword'
 
-# List of ESXi hosts, DNS or IP. Use nmap to find hosts in a subnet by unique TCP port 902 (nmap 172.25.215.0/24 -p 902)
+# List of ESXi hosts, DNS or IP
 hosts = ['10.0.0.1',
          '10.0.0.2',
          '10.0.0.3']
@@ -69,7 +68,6 @@ for item in vm_header:
 for item in hw_header:
     worksheet_hosts.write(hw_row, hw_col, item, bold)
     hw_col += 1
-
 
 # Set row to start after headers
 vm_row = 1
@@ -132,7 +130,6 @@ for host in hosts:
         vm_row += 1
 
     vm_col = 0
-
 
     content = si.RetrieveContent()
     hw = si.content.rootFolder.childEntity[0].hostFolder.childEntity[0].host[0]
