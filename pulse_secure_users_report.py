@@ -1,4 +1,6 @@
-# A script that generates a report on users who have connected to Pulse Secure VPN in last 24 hours ~ defaultroot
+# A script that generates a report on users who have connected to Pulse Secure VPN in last 24 hours.
+# Requires a command to run in PowerShell first to dump a list of domain users (line 93)
+# Some variable/function names refactored so as not to identify workplace...hopefully still works after! ~ deafultroot
 
 from selenium import webdriver
 from time import sleep
