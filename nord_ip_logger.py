@@ -32,21 +32,21 @@ def save_pickle(ip, filename):
     try:
         with open(f"{filename}", "wb") as f:
             pickle.dump(ip, f)
-        print(f"Saved IP {ip} to {filename}")
+        logging.debug(f"Saved IP {ip} to {filename}")
 
     except:
-        print(f"Error saving {ip} to {filename}")
+        logging.error(f"Error saving {ip} to {filename}")
 
 def load_pickle(filename):
 
     try:
         with open(f"{filename}", "rb") as f:
             imported_pickle = pickle.load(f)
-        print(f"Loaded {filename} with IP {imported_pickle}")
+        logging.debug(f"Loaded {filename} with IP {imported_pickle}")
         return imported_pickle
 
     except:
-        print(f"No file named {filename} found, so returning an empty IP")
+        logging.warning(f"No file named {filename} found, so returning an empty IP. Normal if first run of program.")
         return "0.0.0.0"
 
 
