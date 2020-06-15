@@ -4,6 +4,7 @@
 import requests
 from time import sleep, time
 import logging
+import pickle
 
 def logging_setup(log_level='INFO', file_name='nord_ip_log.log'):
 
@@ -27,6 +28,28 @@ def get_ip():
         logging.error("Could not retrieve IP address from nordvpn.com")
 
 
+def save_pickle(ip, filename):
+    try:
+        with open(f"{filename}", "wb") as f:
+            pickle.dump(ip, f)
+        print(f"Saved IP {ip} to {filename}")
+
+    except:
+        print(f"Error saving {ip} to {filename}")
+
+def load_pickle(filename):
+
+    try:
+        with open(f"{filename}", "rb") as f:
+            imported_pickle = pickle.load(f)
+        print(f"Loaded {filename} with IP {imported_pickle}")
+        return imported_pickle
+
+    except:
+        print(f"No file named {filename} found, so returning an empty IP")
+        return "0.0.0.0"
+
+
 ### Variables ###
 
 RECHECK_TIME_IN_MINUTES = 1        # How often IP address is checked
@@ -37,7 +60,7 @@ def main():
 
     logging_setup()
 
-    current_ip = "0.0.0.0"  # Placeholder
+    current_ip = load_pickle("last_ip")
 
     start_time = time()  # For measuring how long an IP was retained for
 
@@ -54,8 +77,9 @@ def main():
                 print(f"Changed IP from {current_ip} to {ip} after {elapsed_time} minutes")
                 logging.info(f"Changed IP from {current_ip} to {ip} after {elapsed_time} minutes")
 
-                # Update the current IP, and reset the timer for the new IP
+                # Update the current IP, save the IP to pickle file, and reset the timer for the new IP.
                 current_ip = ip
+                save_pickle(ip, "last_ip")
                 start_time = time()
 
             else:
